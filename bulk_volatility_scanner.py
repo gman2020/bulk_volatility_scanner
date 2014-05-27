@@ -4,6 +4,7 @@
 import subprocess
 import argparse
 import os.path
+import time
 
 #argparse module allows the user to provide -h or --help for help messages
 parser = argparse.ArgumentParser(description="Subject a target memory image to a battery of volatility plugins.", epilog="The plugin file contains line-delimited Volatility plugin commands.")
@@ -45,9 +46,9 @@ try:
         os.mkdir(directory_filename)
 
 #primary execution loop for plugins
-for plugin in open(plugin_file):
+        for plugin in open(plugin_file):
                 print "Plugin: " + plugin.rstrip() + " in progress"
-                output_filename = name_file + "_" + plugin.rstrip() + ".txt"
+                output_filename = name_file + "_" + strftime("%Y%m%d_%H:%M:%S") + "_" + plugin.rstrip() + ".txt"
                 output_file = open(os.path.join(directory_filename, output_filename), "w")
                 subprocess.call(["vol.py", "-f", image_file, "--profile="+profile, plugin.rstrip()], stdout=output_file)
                 print "Plugin: " + plugin.rstrip() + " completed"
